@@ -32,7 +32,7 @@ const SignUp = () => {
             // Send signup request
             try {
                 await axios.post('/users/register', {
-                name: name,
+                name: name, 
                 email,
                 password,
                 });
