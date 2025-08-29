@@ -8,7 +8,7 @@ const App = () => {
     const [showPassword, setShowPassword] = useState(false);
 
     const handleSubmit = (event) => {
-        event.preventDefault();
+        event.preventDefault(); 
 
         if (email.trim() === '' || password.trim() === '') {
             setMessage('Email and password are required.');
@@ -26,8 +26,10 @@ const App = () => {
             {/* Styles for special effects, embedded for single-file use */}
             <style>
                 {`
+                @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap');
+
                 body {
-                    font-family: 'Inter', sans-serif;
+                    font-family: 'Poppins', sans-serif;
                     background: linear-gradient(135deg, #020815, #001f4d, #043657);
                 }
 
@@ -42,6 +44,7 @@ const App = () => {
                     background-color: rgba(0, 0, 0, 0.2);
                     border: 1px solid rgba(255, 255, 255, 0.2);
                     color: #fff;
+                    font-family: 'Poppins', sans-serif;
                     transition: border-color 0.3s, box-shadow 0.3s;
                 }
 
@@ -97,11 +100,11 @@ const App = () => {
                             type="email"
                             id="email"
                             name="email"
-                            placeholder="Enter your email"
+                            placeholder="example@hackathon.com"
                             required
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
-                            className="login-input w-full p-3 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-400 transition-shadow duration-300"
+                            className="login-input w-full p-3 rounded-xl focus:outline-none"
                         />
                     </div>
                     <div>
@@ -111,11 +114,11 @@ const App = () => {
                                 type={showPassword ? 'text' : 'password'}
                                 id="password"
                                 name="password"
-                                placeholder="Enter your password"
+                                placeholder="••••••••"
                                 required
                                 value={password}
                                 onChange={(e) => setPassword(e.target.value)}
-                                className="login-input w-full p-3 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-400 transition-shadow duration-300 pr-10"
+                                className="login-input w-full p-3 rounded-xl focus:outline-none pr-10"
                             />
                             <button
                                 type="button"

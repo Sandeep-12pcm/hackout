@@ -9,31 +9,28 @@ const SignUp = () => {
     const [showPassword, setShowPassword] = useState(false);
 
     const handleSubmit = (event) => {
-        event.preventDefault(); re
+        event.preventDefault(); 
 
-        // Simple validation and message display
         if (name.trim() === '' || email.trim() === '' || password.trim() === '') {
             setMessage('All fields are required.');
             setIsError(true);
-        } else if (password.length < 6) {
-            setMessage('Password must be at least 6 characters long.');
-            setIsError(true);
         } else {
-            // Simulating a successful sign up
-            setMessage('Sign up successful! Welcome.');
+            // Simulating a successful sign-up
+            setMessage('Sign-up successful! Welcome.');
             setIsError(false);
-            console.log('Sign up attempt with:', { name, email, password });
+            console.log('Sign-up attempt with:', { name, email, password });
         }
     };
 
     return (
-        <div className="flex items-center justify-center min-h-screen p-4 overflow-hidden relative">
+        <div className="flex items-center justify-center min-h-screen p-4 relative overflow-hidden">
             {/* Styles for special effects, embedded for single-file use */}
             <style>
                 {`
+                @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap');
+
                 body {
-                    font-family: 'Inter', sans-serif;
-                    /* Static gradient with deeper, more dramatic colors */
+                    font-family: 'Poppins', sans-serif;
                     background: linear-gradient(135deg, #020815, #001f4d, #043657);
                 }
 
@@ -43,11 +40,12 @@ const SignUp = () => {
                     border: 1px solid rgba(255, 255, 255, 0.1);
                     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
                 }
-                
+
                 .signup-input {
                     background-color: rgba(0, 0, 0, 0.2);
                     border: 1px solid rgba(255, 255, 255, 0.2);
                     color: #fff;
+                    font-family: 'Poppins', sans-serif;
                     transition: border-color 0.3s, box-shadow 0.3s;
                 }
 
@@ -62,15 +60,13 @@ const SignUp = () => {
 
                 .signup-button {
                     background: #005f9c;
-                    transition: all 0.3s ease;
+                    transition: background 0.3s ease;
                 }
 
                 .signup-button:hover {
                     background: #003e66;
-                    transform: translateY(-2px) scale(1.02);
-                    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
                 }
-                
+
                 .show-password-btn {
                     background: none;
                     border: none;
@@ -96,7 +92,7 @@ const SignUp = () => {
             <div className="signup-container w-full max-w-sm p-8 rounded-2xl text-white relative z-10">
                 <div className="flex flex-col items-center mb-6">
                     <h1 className="text-3xl font-bold mb-2 text-center drop-shadow-lg">Sign Up</h1>
-                    <p className="text-sm text-center opacity-80 drop-shadow">Create your account to start tracking.</p>
+                    <p className="text-sm text-center opacity-80 drop-shadow">Join us on our mission.</p>
                 </div>
                 <form onSubmit={handleSubmit} className="space-y-6">
                     <div>
@@ -105,11 +101,11 @@ const SignUp = () => {
                             type="text"
                             id="name"
                             name="name"
-                            placeholder="Enter your name"
+                            placeholder="Enter your email"
                             required
                             value={name}
                             onChange={(e) => setName(e.target.value)}
-                            className="signup-input w-full p-3 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-400 transition-shadow duration-300"
+                            className="signup-input w-full p-3 rounded-xl focus:outline-none"
                         />
                     </div>
                     <div>
@@ -122,7 +118,7 @@ const SignUp = () => {
                             required
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
-                            className="signup-input w-full p-3 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-400 transition-shadow duration-300"
+                            className="signup-input w-full p-3 rounded-xl focus:outline-none"
                         />
                     </div>
                     <div>
@@ -136,7 +132,7 @@ const SignUp = () => {
                                 required
                                 value={password}
                                 onChange={(e) => setPassword(e.target.value)}
-                                className="signup-input w-full p-3 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-400 transition-shadow duration-300 pr-10"
+                                className="signup-input w-full p-3 rounded-xl focus:outline-none pr-10"
                             />
                             <button
                                 type="button"
@@ -163,7 +159,7 @@ const SignUp = () => {
                     <div className="pt-4 flex flex-col space-y-2">
                         <button
                             type="submit"
-                            className="signup-button w-full text-white font-bold py-3 px-6 rounded-xl shadow-lg focus:outline-none focus:ring-4 focus:ring-blue-500 focus:ring-opacity-50"
+                            className="signup-button w-full text-white font-bold py-3 px-6 rounded-xl shadow-lg focus:outline-none"
                         >
                             Sign Up
                         </button>
@@ -172,7 +168,7 @@ const SignUp = () => {
                 <div className="mt-6 text-center text-sm font-medium">
                     <p className="text-gray-400">
                         Already have an account?{' '}
-                        <a href="/login" className="text-blue-300 hover:text-white font-bold transition-colors duration-300">
+                        <a href="/" className="text-blue-300 hover:text-white font-bold transition-colors duration-300">
                             Login
                         </a>
                     </p>
