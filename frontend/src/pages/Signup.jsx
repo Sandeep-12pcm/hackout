@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import axios from './../utils/axiosInstance';
 
 const SignUp = () => {
     const [name, setName] = useState('');
@@ -8,7 +9,7 @@ const SignUp = () => {
     const [isError, setIsError] = useState(false);
     const [showPassword, setShowPassword] = useState(false);
 
-    const handleSubmit = (event) => {
+    const handleSubmit = async (event) => {
         event.preventDefault(); 
 
         if (name.trim() === '' || email.trim() === '' || password.trim() === '') {
@@ -16,9 +17,36 @@ const SignUp = () => {
             setIsError(true);
         } else {
             // Simulating a successful sign-up
-            setMessage('Sign-up successful! Welcome.');
-            setIsError(false);
-            console.log('Sign-up attempt with:', { name, email, password });
+            ;
+      // Validation
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(email)) {
+                alert('Please enter a valid email address.');
+                return;
+            }
+            if (password.length < 6) {
+                alert('Password must be at least 6 characters long.');
+                return;
+            }
+
+            // Send signup request
+            try {
+                await axios.post('/users/register', {
+                name: name,
+                email,
+                password,
+                });
+
+                alert('✅ Registration successful!');
+                setIsError(false);
+                console.log('Sign-up attempt with:', { name, email, password });
+            } catch (err) {
+                console.error('Signup error:', err.response?.data || err.message);
+                alert(err.response?.data?.message || 'Signup failed');
+            }
+
+
+
         }
     };
 
