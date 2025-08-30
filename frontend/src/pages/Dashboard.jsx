@@ -313,157 +313,6 @@ import axios from './../utils/axiosInstance';
 import { useNavigate } from "react-router-dom";
 // import logout from "../services/auth";
 
-// AlertList Component
-function AlertList({ alerts }) {
-  const alertBgColors = {
-    high: "bg-red-50 border-red-200 text-red-700",
-    medium: "bg-orange-50 border-orange-200 text-orange-700",
-    low: "bg-yellow-50 border-yellow-200 text-yellow-700"
-  };
-
-  const getAlertIcon = (type) => {
-    switch(type) {
-      case 'storm': return 'fa-exclamation-triangle';
-      case 'erosion': return 'fa-exclamation-circle';
-      case 'pollution': return 'fa-info-circle';
-      default: return 'fa-bell';
-    }
-  };
-
-  return (
-    <div className="bg-white rounded-lg shadow p-6 mb-6">
-      <div className="flex justify-between items-center mb-4">
-        <h3 className="text-lg font-bold text-gray-800">Current Threat Alerts</h3>
-        <span className="bg-red-100 text-red-800 text-xs font-medium px-2.5 py-0.5 rounded-full">
-          {alerts.length} Active
-        </span>
-      </div>
-      <div className="space-y-4">
-        {alerts.map(alert => (
-          <div 
-            key={alert.id} 
-            className={`${alertBgColors[alert.level]} flex items-start p-4 border rounded-lg`}
-          >
-            <div className="flex-shrink-0 mr-3 text-xl">
-              <i className={`fas ${getAlertIcon(alert.type)}`}></i>
-            </div>
-            <div className="flex-1">
-              <h4 className="font-bold">{alert.title}</h4>
-              <p className="text-sm text-gray-600">{alert.description}</p>
-              <div className="flex items-center mt-2 text-xs text-gray-500">
-                <span><i className="fas fa-clock mr-1"></i> Updated {alert.time}</span>
-                <span className="mx-2">•</span>
-                <span><i className="fas fa-map-marker-alt mr-1"></i> {alert.location}</span>
-              </div>
-            </div>
-          </div>
-        ))}
-      </div>
-    </div>
-  );
-}
-
-// MetricsPanel Component
-function MetricsPanel({ metrics }) {
-  return (
-    <div className="bg-white rounded-lg shadow p-6 mb-6">
-      <h3 className="text-lg font-bold text-gray-800 mb-4">Environmental Metrics</h3>
-      <div className="space-y-4">
-        <MetricCard 
-          icon="fas fa-temperature-high" 
-          iconColor="text-blue-600" 
-          bgColor="bg-blue-50" 
-          borderColor="border-blue-200"
-          label="Water Temp"
-          value={`${metrics.waterTemp}°C`}
-          subtext={<><i className="fas fa-arrow-up"></i> 1.2°C from yesterday</>}
-        />
-        <MetricCard 
-          icon="fas fa-ruler-combined" 
-          iconColor="text-green-600" 
-          bgColor="bg-green-50" 
-          borderColor="border-green-200"
-          label="Sea Level"
-          value={`${metrics.seaLevel}m`}
-          subtext={<><i className="fas fa-arrow-up"></i> 0.08m from average</>}
-        />
-        <MetricCard 
-          icon="fas fa-wind" 
-          iconColor="text-purple-600" 
-          bgColor="bg-purple-50" 
-          borderColor="border-purple-200"
-          label="Wind Speed"
-          value={`${metrics.windSpeed} km/h`}
-          subtext={`Direction: ${metrics.windDirection}`}
-        />
-      </div>
-    </div>
-  );
-}
-
-function MetricCard({ icon, iconColor, bgColor, borderColor, label, value, subtext }) {
-  return (
-    <div className={`${bgColor} p-4 rounded-lg border ${borderColor}`}>
-      <div className="flex items-center">
-        <div className={`rounded-full ${bgColor.replace('-50', '-100')} p-3 mr-4`}>
-          <i className={`${icon} ${iconColor} text-xl`}></i>
-        </div>
-        <div>
-          <p className="text-sm text-gray-600">{label}</p>
-          <p className="text-xl font-bold">{value}</p>
-        </div>
-      </div>
-      {subtext && <p className="text-xs mt-2 text-gray-600">{subtext}</p>}
-    </div>
-  );
-}
-
-// NotificationCenter Component
-function NotificationCenter({ notifications }) {
-  return (
-    <div className="bg-white rounded-lg shadow p-6 mb-6">
-      <h3 className="text-lg font-bold text-gray-800 mb-4">Notification Center</h3>
-      <div className="space-y-4">
-        {notifications.map(notif => (
-          <div key={notif.id} className="p-3 bg-blue-50 border border-blue-200 rounded-lg">
-            <div className="flex justify-between">
-              <span className="font-medium text-blue-700">{notif.title}</span>
-              <span className="text-xs text-gray-500">{notif.time}</span>
-            </div>
-            <p className="text-sm mt-1">{notif.description}</p>
-          </div>
-        ))}
-      </div>
-      <button className="w-full mt-4 bg-gray-100 hover:bg-gray-200 text-gray-800 py-2 rounded-md text-sm">
-        View All Notifications
-      </button>
-    </div>
-  );
-}
-
-// QuickActions Component
-function QuickActions() {
-  return (
-    <div className="bg-white rounded-lg shadow p-6 mb-6">
-      <h3 className="text-lg font-bold text-gray-800 mb-4">Quick Actions</h3>
-      <div className="grid grid-cols-2 gap-3">
-        <button className="bg-blue-100 hover:bg-blue-200 text-blue-800 py-2 px-3 rounded-md text-sm flex items-center justify-center">
-          <i className="fas fa-bullhorn mr-2"></i> Send Alert
-        </button>
-        <button className="bg-green-100 hover:bg-green-200 text-green-800 py-2 px-3 rounded-md text-sm flex items-center justify-center">
-          <i className="fas fa-download mr-2"></i> Export Data
-        </button>
-        <button className="bg-purple-100 hover:bg-purple-200 text-purple-800 py-2 px-3 rounded-md text-sm flex items-center justify-center">
-          <i className="fas fa-chart-line mr-2"></i> Generate Report
-        </button>
-        <button className="bg-yellow-100 hover:bg-yellow-200 text-yellow-800 py-2 px-3 rounded-md text-sm flex items-center justify-center">
-          <i className="fas fa-cog mr-2"></i> Settings
-        </button>
-      </div>
-    </div>
-  );
-}
-
 export default function Dashboard() {
   // const { user, logout } = useContext(AuthContext);
   const [activeTab, setActiveTab] = useState("overview");
@@ -595,6 +444,187 @@ const handleLogout = async () => {
     fetchMetrics(city);
   }, []);
 
+  // Mock alerts + notifications
+  useEffect(() => {
+    setAlerts([
+      {
+        id: 1,
+        type: "storm",
+        level: "high",
+        title: "Storm Surge Warning",
+        location: "Sector 4B",
+        time: "15 min ago",
+        description:
+          "High probability of storm surge in Northern coastal areas. Expected within 24-36 hours.",
+      },
+    ]);
+
+    setNotifications([
+      {
+        id: 1,
+        type: "subscription",
+        title: "Alert Subscription",
+        time: "10:42 AM",
+        description: "Fisherfolk community subscribed to storm alerts",
+      },
+    ]);
+  }, []);
+
+  // Tab Components
+  const renderOverview = () => (
+    <div>
+      <h2 className="text-2xl font-bold text-gray-800 mb-2">
+        Coastal Monitoring Dashboard
+      </h2>
+      <p className="text-gray-600">
+        Real-time monitoring of coastal threats and environmental metrics
+      </p>
+    </div>
+  );
+
+  const renderAlerts = () => (
+    <div className="space-y-4">
+      {alerts.map((alert) => (
+        <div
+          key={alert.id}
+          className="p-4 bg-red-50 border border-red-200 rounded-lg"
+        >
+          <h4 className="font-bold text-red-700">{alert.title}</h4>
+          <p className="text-sm">{alert.description}</p>
+          <p className="text-xs text-gray-500 mt-1">
+            {alert.time} • {alert.location}
+          </p>
+        </div>
+      ))}
+    </div>
+  );
+
+  // const renderMetrics = () => (
+  //   <div>
+  //     {/* City Input */}
+  //     <div className="flex space-x-2 mb-6">
+  //       <input
+  //         type="text"
+  //         value={city}
+  //         onChange={(e) => setCity(e.target.value)}
+  //         className="border px-3 py-2 rounded-md w-1/3"
+  //         placeholder="Enter city name"
+  //       />
+  //       <button
+  //         onClick={searchCity}
+  //         className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md"
+  //       >
+  //         {loading ? "Loading..." : "Search"}
+  //       </button>
+  //     </div>
+
+  //     {/* Environmental Metrics */}
+  //     <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+  //       <div className="bg-blue-50 p-4 rounded-lg border border-blue-200">
+  //         <h3 className="font-bold">Temperature</h3>
+  //         <p className="text-2xl">{metrics.temp}°C</p>
+  //       </div>
+  //       <div className="bg-green-50 p-4 rounded-lg border border-green-200">
+  //         <h3 className="font-bold">Humidity</h3>
+  //         <p className="text-2xl">{metrics.humidity}%</p>
+  //       </div>
+  //       <div className="bg-purple-50 p-4 rounded-lg border border-purple-200">
+  //         <h3 className="font-bold">Wind</h3>
+  //         <p className="text-2xl">
+  //           {metrics.windSpeed} km/h ({metrics.windDirection}°)
+  //         </p>
+  //       </div>
+  //       <div className="bg-yellow-50 p-4 rounded-lg border border-yellow-200">
+  //         <h3 className="font-bold">Pressure</h3>
+  //         <p className="text-2xl">{metrics.pressure} hPa</p>
+  //       </div>
+  //       <div className="bg-indigo-50 p-4 rounded-lg border border-indigo-200">
+  //         <h3 className="font-bold">Rain (last 1h)</h3>
+  //         <p className="text-2xl">{metrics.rain} mm</p>
+  //       </div>
+  //       <div className="bg-teal-50 p-4 rounded-lg border border-teal-200">
+  //         <h3 className="font-bold">Sea Level</h3>
+  //         <p className="text-2xl">{metrics.seaLevel} m</p>
+  //       </div>
+  //     </div>
+  //   </div>
+  // );
+
+   const renderMetrics = () => (
+    <div>
+      {/* City Input */}
+      <div className="flex space-x-2 mb-6">
+        <input
+          type="text"
+          value={city}
+          onChange={(e) => setCity(e.target.value)}
+          className="border px-3 py-2 rounded-md w-1/3"
+          placeholder="Enter city name"
+        />
+        <button
+          onClick={searchCity}
+          className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md"
+        >
+          {loading ? "Loading..." : "Search"}
+        </button>
+      </div>
+
+      {/* Environmental Metrics */}
+      {metrics.temp && (
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="bg-blue-50 p-4 rounded-lg border border-blue-200">
+            <h3 className="font-bold">Temperature</h3>
+            <p className="text-2xl">{metrics.temp}°C</p>
+          </div>
+          <div className="bg-green-50 p-4 rounded-lg border border-green-200">
+            <h3 className="font-bold">Humidity</h3>
+            <p className="text-2xl">{metrics.humidity}%</p>
+          </div>
+          <div className="bg-purple-50 p-4 rounded-lg border border-purple-200">
+            <h3 className="font-bold">Wind</h3>
+            <p className="text-2xl">
+              {metrics.windSpeed} km/h ({metrics.windDirection}°)
+            </p>
+          </div>
+          <div className="bg-yellow-50 p-4 rounded-lg border border-yellow-200">
+            <h3 className="font-bold">Pressure</h3>
+            <p className="text-2xl">{metrics.pressure} hPa</p>
+          </div>
+          <div className="bg-indigo-50 p-4 rounded-lg border border-indigo-200">
+            <h3 className="font-bold">Rain (last 1h)</h3>
+            <p className="text-2xl">{metrics.rain} mm</p>
+          </div>
+          <div className="bg-teal-50 p-4 rounded-lg border border-teal-200">
+            <h3 className="font-bold">Sea Level</h3>
+            <p className="text-2xl">{metrics.seaLevel} m</p>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+
+  const renderMaps = () => (
+    <div className="bg-gray-200 h-64 rounded-lg flex items-center justify-center">
+      <div className="text-center text-gray-500">
+        <i className="fas fa-map-marked-alt text-4xl mb-2"></i>
+        <p>Interactive coastal threat map</p>
+      </div>
+    </div>
+  );
+
+  const renderReports = () => (
+    <div className="p-4 bg-white shadow rounded-lg">
+      <h3 className="text-lg font-bold">Reports Section</h3>
+      <p className="text-sm text-gray-600 mt-2">
+        Generate detailed reports on coastal metrics, alerts, and trends.
+      </p>
+    </div>
+  );
+
+  useEffect(() => {
+    fetchMetrics(city);
+  }, []);
+
   useEffect(() => {
     // Mock alerts
     setAlerts([
@@ -673,24 +703,11 @@ const handleLogout = async () => {
 
       {/* Main Content */}
       <main className="flex-1 container mx-auto px-4 py-6">
-        <div className="mb-6">
-          <h2 className="text-2xl font-bold text-gray-800">Coastal Monitoring Dashboard</h2>
-          <p className="text-gray-600">Real-time monitoring of coastal threats and environmental metrics</p>
-        </div>
-
-        {/* Conditional Rendering per Tab */}
-        {activeTab === 'alerts' && <AlertList alerts={alerts} />}
-        {activeTab === 'metrics' && <MetricsPanel metrics={metrics} />}
-        {activeTab === 'overview' && (
-          <>
-            <AlertList alerts={alerts} />
-            <MetricsPanel metrics={metrics} />
-            <NotificationCenter notifications={notifications} />
-            <QuickActions />
-            {/* Add map placeholder or component here if ready */}
-          </>
-        )}
-        {/* Add placeholders for 'map' and 'reports' with future components */}
+        {activeTab === "overview" && renderOverview()}
+        {activeTab === "alerts" && renderAlerts()}
+        {activeTab === "metrics" && renderMetrics()}
+        {activeTab === "maps" && renderMaps()}
+        {activeTab === "reports" && renderReports()}
       </main>
 
       {/* Footer */}
