@@ -1,11 +1,9 @@
-// server.js
-import express from 'express';
-import mongoose from 'mongoose';
-import cors from 'cors';
-import dotenv from 'dotenv';
-import router from './controllers/alertController.js';
-
-dotenv.config();
+const express = require('express');
+const mongoose = require('mongoose');
+const cors = require('cors');
+require('dotenv').config();
+const notificationRoutes = require('./routes/notificationRoutes');
+const { getReportsByCity, exportReportsCSV, exportReportsPDF } = require("./controllers/reportController");
 
 const app = express();
 
@@ -18,6 +16,12 @@ app.use('/api', router);
 app.get('/', (req, res) => {
   res.send('Welcome to Hackout API: Code is Green');
 });
+
+app.get("/search", getReportsByCity);
+app.get("/export/csv", exportReportsCSV);
+app.get("/export/pdf", exportReportsPDF);
+app.use("/api/notifications", notificationRoutes);
+
 
 // MongoDB Connection
 mongoose.connect(process.env.MONGO_URI, {

@@ -18,6 +18,17 @@ const userSchema = new mongoose.Schema({
     required: true,
     minlength: 6
   },
+  role: {
+    type: String,
+    enum: [
+      "Disaster Management Authorities",
+      "Coastal City Governments",
+      "Environmental NGOs",
+      "Local Communities and Fisherfolk",
+      "Researchers and Policy Analysts"
+    ],
+    required: true
+  },
   created_at: {
     type: Date,
     default: Date.now

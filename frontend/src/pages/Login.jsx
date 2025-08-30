@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const App = () => {
     const [email, setEmail] = useState('');
@@ -6,20 +7,34 @@ const App = () => {
     const [message, setMessage] = useState('');
     const [isError, setIsError] = useState(false);
     const [showPassword, setShowPassword] = useState(false);
+    const navigate = useNavigate();
 
-    const handleSubmit = (event) => {
-        event.preventDefault(); 
+    // const handleSubmit = (event) => {
+    //     event.preventDefault(); 
 
-        if (email.trim() === '' || password.trim() === '') {
-            setMessage('Email and password are required.');
-            setIsError(true);
-        } else {
-            // Simulating a successful login
-            setMessage('Login successful! Welcome.');
-            setIsError(false);
-            console.log('Login attempt with:', { email, password });
-        }
-    };
+    //     if (email.trim() === '' || password.trim() === '') {
+    //         setMessage('Email and password are required.');
+    //         setIsError(true);
+    //     } else {
+    //         // Simulating a successful login
+    //         setMessage('Login successful! Welcome.');
+    //         setIsError(false);
+    //         navigate('/dashboard');
+    //         console.log('Login attempt with:', { email, password });
+    //     }
+    // };
+
+     const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const res = await apiLogin({ email, password });
+      login(res.data); // store user & token in context + localStorage
+      navigate("/dashboard"); // navigate after successful login
+    } catch (err) {
+      console.error("Login failed:", err.response?.data || err.message);
+      alert(err.response?.data?.message || "Login failed");
+    }
+  };
 
     return (
         <div className="flex items-center justify-center min-h-screen p-4 overflow-hidden relative">

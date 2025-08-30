@@ -8,13 +8,19 @@ import AlertForm from "./pages/AlertForm";
 
 function App() {
   return (
-    <AuthProvider>
-      <BrowserRouter>
+    <BrowserRouter>
+      <AuthProvider>
         <Routes>
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
-          <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/alertform" element={<AlertForm />} />
+          <Route
+            path="/dashboard"
+            element={
+              // <ProtectedRoute>
+                <Dashboard />
+              //  </ProtectedRoute>
+            }
+          />
           <Route
             path="/"
             element={
@@ -24,8 +30,8 @@ function App() {
             }
           />
         </Routes>
-      </BrowserRouter>
-    </AuthProvider>
+      </AuthProvider>
+    </BrowserRouter>
   );
 }
 

@@ -1,13 +1,16 @@
 import React, { useState } from 'react';
 import axios from './../utils/axiosInstance';
+import { useNavigate } from 'react-router-dom';
 
 const SignUp = () => {
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [message, setMessage] = useState('');
+    const [role, setRole] = useState('');
     const [isError, setIsError] = useState(false);
     const [showPassword, setShowPassword] = useState(false);
+    const navigate = useNavigate();
 
     const handleSubmit = async (event) => {
         event.preventDefault(); 
@@ -35,10 +38,12 @@ const SignUp = () => {
                 name: name, 
                 email,
                 password,
+                role
                 });
 
                 alert('✅ Registration successful!');
                 setIsError(false);
+                navigate('/dashboard');
                 console.log('Sign-up attempt with:', { name, email, password });
             } catch (err) {
                 console.error('Signup error:', err.response?.data || err.message);
@@ -183,6 +188,23 @@ const SignUp = () => {
                                 )}
                             </button>
                         </div>
+                        
+                    </div>
+                    <div>
+                        <label htmlFor="role" className="text-sm font-semibold text-white block mb-2">Role</label>
+                        <select
+                            id="role"
+                            value={role}
+                            onChange={(e) => setRole(e.target.value)}
+                            className="signup-input w-full p-3 rounded-xl"
+                        >
+                            <option value="">-- Select Role --</option>
+                            <option value="Disaster Management Authorities">Disaster Management Authorities</option>
+                            <option value="Coastal City Governments">Coastal City Governments</option>
+                            <option value="Environmental NGOs">Environmental NGOs</option>
+                            <option value="Local Communities and Fisherfolk">Local Communities and Fisherfolk</option>
+                            <option value="Researchers and Policy Analysts">Researchers and Policy Analysts</option>
+                        </select>
                     </div>
                     <div className="pt-4 flex flex-col space-y-2">
                         <button

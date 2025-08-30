@@ -1,11 +1,14 @@
 const express = require('express');
-const { signup, login } = require('../controllers/authController');
+const { signup, login, logout } = require('../controllers/authController');
 const User = require('../models/User');
+const jwt = require('jsonwebtoken');
+const auth = require('../middlewares/auth');
 
 const router = express.Router();
 
 router.post('/register', signup);
 router.post('/login', login);
+router.post('/logout',auth,logout);
 
 
 router.get('/', async (req, res) => {
@@ -17,4 +20,5 @@ router.get('/', async (req, res) => {
     res.status(500).json({ message: '(CodeRed) Failed to fetch users' });
   }
 });
+
 module.exports = router;

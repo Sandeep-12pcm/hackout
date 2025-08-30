@@ -7,4 +7,4 @@ const router = express.Router();
 // GET /api/sea-level
 router.get("/sea-level", getSeaLevel);
 
-export default router;
+module.exports = router;
