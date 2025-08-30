@@ -5,6 +5,7 @@ import Signup from "./pages/Signup";
 import Dashboard from "./pages/Dashboard";
 import ProtectedRoute from "./components/ProtectedRoute";
 import AlertForm from "./pages/AlertForm";
+import Predicted from "./components/Predicted";
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
           <Route path="/alertform" element={<AlertForm />} />
+          <Route path="/predicted" element={<Predicted />} />
           <Route
             path="/dashboard"
             element={

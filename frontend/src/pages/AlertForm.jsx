@@ -1,7 +1,9 @@
+
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';   
 import axios from './../utils/axiosInstance';
 
-const AlertForm = () => {
+const AlertForm = ({onSubmit, onCancel}) => {
   const [form, setForm] = useState({
     severity: '',
     type: '',
@@ -12,11 +14,12 @@ const AlertForm = () => {
   const [errors, setErrors] = useState({});
   const [isSubmitting, setIsSubmitting] = useState(false);
 
+  const navigate = useNavigate();   // ✅ setup navigate hook
+
   const severityOptions = ['Low', 'Medium', 'High', 'Critical'];
   const typeOptions = ['Security', 'Weather', 'Medical', 'Fire', 'Other'];
 
-  // Validation function
-  const validateForm = () => {
+ const validateForm = () => {
     const newErrors = {};
     if (!form.severity) newErrors.severity = 'Severity is required';
     if (!form.type) newErrors.type = 'Threat type is required';
@@ -35,6 +38,30 @@ const AlertForm = () => {
     }
   };
 
+  // const handleSubmit = async (e) => {
+  //   e.preventDefault();
+  //   const validationErrors = validateForm();
+    
+  //   if (Object.keys(validationErrors).length > 0) {
+  //     setErrors(validationErrors);
+  //     return;
+  //   }
+
+  //   setIsSubmitting(true);
+  //   try {
+  //     await axios.post('/alerts', form);
+  //     alert('Alert sent successfully!');
+  //     // Reset form after successful submission
+  //     setForm({ severity: '', type: '', title: '', description: '', location: '' });
+  //     setErrors({});
+  //   } catch (err) {
+  //     alert('Error sending alert');
+  //   } finally {
+  //     setIsSubmitting(false);
+  //   }
+  // };
+
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     const validationErrors = validateForm();
@@ -48,7 +75,12 @@ const AlertForm = () => {
     try {
       await axios.post('/alerts', form);
       alert('Alert sent successfully!');
-      // Reset form after successful submission
+
+      // call onSubmit so Dashboard updates state
+      if (onSubmit) {
+        onSubmit(form);
+      }
+
       setForm({ severity: '', type: '', title: '', description: '', location: '' });
       setErrors({});
     } catch (err) {
@@ -58,16 +90,16 @@ const AlertForm = () => {
     }
   };
 
+
   return (
-    <div className="max-w-md mx-auto mt-10 p-6 bg-white rounded-lg shadow-md">
+    <div className="w-lg mx-auto mt-10 p-6 bg-white rounded-lg shadow-md">
       <h2 className="text-2xl font-bold mb-6 text-gray-800">Create Alert</h2>
       <form onSubmit={handleSubmit} className="space-y-4">
-        {/* Severity Select */}
         <div>
-          <label htmlFor="severity" className="block text-sm font-medium text-gray-700">
+           <label htmlFor="severity" className="block text-sm font-medium text-gray-700">
             Severity
           </label>
-          <select
+                    <select
             name="severity"
             value={form.severity}
             onChange={handleChange}
@@ -189,9 +221,19 @@ const AlertForm = () => {
         >
           {isSubmitting ? 'Sending...' : 'Send Alert'}
         </button>
+
+        {/* Cancel Button ✅ */}
+        <button
+          type="button"
+          onClick={onCancel}
+          className="w-full py-2 px-4 rounded-md text-white font-medium bg-gray-500 hover:bg-gray-600"
+        >
+          Cancel
+        </button>
       </form>
     </div>
   );
 };
 
 export default AlertForm;
+
