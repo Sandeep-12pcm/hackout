@@ -41,7 +41,7 @@ const users = [
     phone: "+917303042793",
     roles: ["authority"],
   },
-  // { id: 2, name: 'NGO Group', email: 'ngo@example.com', phone: '+11234567891', roles: ['ngo'] },
+  { id: 2, name: 'NGO Group', email: 'raikislay1@gmail.com', phone: '+917303042793', roles: ['ngo'] },
   // { id: 3, name: 'Local Fisherfolk', phone: '+11234567892', roles: ['community'] }, // No email for SMS only user
 ];
 
